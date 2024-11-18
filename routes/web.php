@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Admin;
 
 Route::get('/', function () {
     return view('home'); // было welcome
@@ -34,3 +36,7 @@ Route::put('/reports/{id}', [ReportController::class, 'update'])->name('reports.
 
 
 require __DIR__ . '/auth.php';
+
+Route::middleware((Admin::class))->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+});
